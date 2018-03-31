@@ -1546,3 +1546,16 @@ void wireFrame::generateFaceLoops(){
 
 	// }
 	// printf("%d\n", numberOfFLvisited);
+
+ std::vector< std::vector<vertex3D> > wireFrame::getfaces(){
+     std::vector< std::vector<vertex3D> > faces ;
+     for(unsigned i = 0 ; i < faceloops.size() ; i += 1) {
+         std::vector<vertex3D> currentFace ;
+         std::vector<edge3D> currentFaceEdges  = faceloops[i].getAllEdges() ;
+         for(unsigned j= 0 ; j < currentFaceEdges.size() ; j +=1) {
+             currentFace.push_back(currentFaceEdges[j].v1);
+         }
+         faces.push_back(currentFace);
+     }
+     return faces ;
+ }

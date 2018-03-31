@@ -6,13 +6,29 @@
 #define FACTOR 200
 #define INF 10000
 
-TwoDObj::TwoDObj(std::vector<vertex3D> vertices, std::vector<edge3D> edgeList) {
+TwoDObj::TwoDObj(std::vector<vertex3D> vertices, std::vector<edge3D> edgeList , std::vector< std::vector<vertex3D> > faces) {
     this->vertices = vertices ;
     this->edgeList = edgeList ;
+    this->faceList = faces ;
     generateTopView() ;
     generateSideView() ;
     generateFrontView() ;
     generateIsometric();
+
+}
+
+inline void printPlane(std::vector<vertex3D> plane3D) {
+    for(unsigned i=0; i < plane3D.size() ; i+=1) {
+        plane3D[i].print() ;
+    }
+    cout<<endl ;
+}
+
+inline void printPlane2D(std::vector<vertex2D> plane2D) {
+    for(unsigned i=0; i < plane2D.size() ; i+=1) {
+        plane2D[i].print() ;
+    }
+    cout<<endl ;
 }
 
 float* TwoDObj::getMinXY(){
@@ -155,9 +171,10 @@ bool TwoDObj::onSegment(vertex2D p, vertex2D q, vertex2D r)
 
 int TwoDObj::orientation(vertex2D p, vertex2D q, vertex2D r)
 {
-    int val = (q.b - p.b) * (r.a - q.a) -
-              (q.a - p.a) * (r.b - q.b);
-
+    float val = ((q.b - p.b) * (r.a - q.a)) - ((q.a - p.a) * (r.b - q.b));
+    cout<<"1--"<<(q.b - p.b) * (r.a - q.a)<<endl ;
+    cout<<"2--"<<(q.a - p.a) * (r.b - q.b)<<endl ;
+    cout<<"3--"<<val<<endl;
     if (val == 0) return 0;  // colinear
     return (val > 0)? 1: 2; // clock or counterclock wise
 }
@@ -170,7 +187,10 @@ bool TwoDObj::doIntersect(vertex2D p1, vertex2D q1, vertex2D p2, vertex2D q2)
     int o2 = orientation(p1, q1, q2);
     int o3 = orientation(p2, q2, p1);
     int o4 = orientation(p2, q2, q1);
-
+    cout<<o1<<endl ;
+    cout<<o2<<endl ;
+    cout<<o3<<endl ;
+    cout<<o4<<endl ;
     // General case
     if (o1 != o2 && o3 != o4)
         return true;
@@ -193,6 +213,11 @@ bool TwoDObj::doIntersect(vertex2D p1, vertex2D q1, vertex2D p2, vertex2D q2)
 
 bool TwoDObj::isInside(std::vector<vertex2D> polygon, int n, vertex2D p)
 {
+    cout<<endl;
+    printPlane2D(polygon);
+    cout<<n<<endl ;
+    p.print();
+    cout<<endl ;
     // There must be at least 3 vertices in polygon[]
     if (n < 3)  return false;
 
@@ -203,10 +228,19 @@ bool TwoDObj::isInside(std::vector<vertex2D> polygon, int n, vertex2D p)
     int count = 0, i = 0;
     do
     {
+        cout<<"in  loop"<<endl ;
         int next = (i+1)%n;
-
+        polygon[i].print() ;
+        cout<<endl ;
+        polygon[next].print() ;
+        cout<<endl ;
+        p.print() ;
+        cout<<endl ;
+        extreme.print();
+        cout<<endl ;
         // Check if the line segment from 'p' to 'extreme' intersects
         // with the line segment from 'polygon[i]' to 'polygon[next]'
+        cout<<"intersection here"<<doIntersect(polygon[i], polygon[next], p, extreme)<<endl ;
         if (doIntersect(polygon[i], polygon[next], p, extreme))
         {
             // If the point 'p' is colinear with line segment 'i-next',
@@ -283,23 +317,37 @@ bool TwoDObj::canHide(edge3D edge, std::vector<vertex3D> plane3D , int direction
     }
     else if(direction == 1 ){
         for(unsigned i = 0 ; i < plane3D.size() ; i+=1) {
-            if(edge.v1.a < plane3D[i].a || edge.v2.a < plane3D[i].a ) return true ;
+            if(edge.v1.a > plane3D[i].a || edge.v2.a > plane3D[i].a ) return true ;
         }
         return false ;
     }
     else {
         for(unsigned i = 0 ; i < plane3D.size() ; i+=1) {
-            if(edge.v1.b < plane3D[i].b || edge.v2.b < plane3D[i].b ) return true ;
+            if(edge.v1.b > plane3D[i].b || edge.v2.b > plane3D[i].b ) return true ;
         }
         return false ;
     }
 }
 
+
+
 bool TwoDObj::checkHides(edge3D edge, std::vector<vertex3D> plane3D , int direction) {
+    cout<<"checking";
+    cout<<direction ;
+    edge.v1.print() ;
+    edge.v2.print() ;
+    cout<<endl ;
+    printPlane(plane3D);
     bool hidingPot = canHide(edge,plane3D,direction) ;
+    cout<<hidingPot<<endl ;
     if(!hidingPot) return false ;
     edge2D edge2d = get2DEdge(edge,direction);
+    edge2d.v1.print();
+    edge2d.v2.print() ;
+    cout<<endl ;
+
     std::vector<vertex2D> plane2D = getPlane2D(plane3D,direction) ;
+    printPlane2D(plane2D);
     bool v1Inside = isInside(plane2D , plane2D.size() , edge2d.v1) ;
     bool v2Inside = isInside(plane2D , plane2D.size(), edge2d.v2) ;
     return v1Inside && v2Inside ;
@@ -337,9 +385,11 @@ void TwoDObj::generateFrontView(){
         currentEdge3D = edgeList[i] ;
         currentEdge2D = get2DEdge(currentEdge3D , 1 )  ;
         if(hiddenInView(currentEdge3D , 1)) {
+//            cout<< "in hidden" << endl ;
             frontViewHidden.push_back(currentEdge2D);
         }
         else {
+//            cout<< "in non hidden" << endl ;
             frontViewVis.push_back(currentEdge2D);
         }
         frontView.push_back(currentEdge2D);
@@ -354,8 +404,10 @@ void TwoDObj::generateSideView(){
         currentEdge2D = get2DEdge(currentEdge3D , 2 )  ;
         if(hiddenInView(currentEdge3D , 2)) {
             sideViewHidden.push_back(currentEdge2D);
+//            cout<< "in hidden" << endl ;
         }
         else {
+//            cout<< "in non hidden" << endl ;
             sideViewVis.push_back(currentEdge2D);
         }
         sideView.push_back(currentEdge2D);

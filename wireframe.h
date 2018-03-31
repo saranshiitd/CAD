@@ -120,6 +120,9 @@ public:
 
 
 	void reverseFaceLoops();
+
+    std::vector< std::vector<vertex3D> > getfaces() ;
+
 private:
 		// sort all edges at a vertex in clockwise direction
 	vertexEdgeList sortVEList(vertexEdgeList veList , plane p);

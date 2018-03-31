@@ -2,6 +2,7 @@
 #define STRUCTS_H
 #include <vector>
 #include <cmath>
+#include <iostream>
 using namespace std;
 /*
 * defnition of a 2D vertex
@@ -39,6 +40,9 @@ struct vertex2D{
         toReturn[0] = a ;
         toReturn[1] = b ;
         return toReturn ;
+    }
+    void print(){
+        cout<<"{"<<a<<" "<<b<<"}" ;
     }
 };
 
@@ -120,6 +124,10 @@ struct vertex3D{
     bool operator==(const vertex3D& n)
     {
         return (abs(a - n.a) < 0.01) && (abs(b - n.b) < 0.01) && (abs(c - n.c) < 0.01);
+    }
+
+    void print(){
+        cout<<"{"<<a<<" "<<b<<" "<<c<<"}" ;
     }
 };
 

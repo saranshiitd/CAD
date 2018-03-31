@@ -20,7 +20,7 @@ public:
     std::vector<edge2D> frontViewVis ;
     std::vector<edge2D> sideViewHidden ;
     std::vector<edge2D> sideViewVis ;
-    TwoDObj(std::vector<vertex3D> vertices , std::vector<edge3D> edgeList) ;
+    TwoDObj(std::vector<vertex3D> vertices , std::vector<edge3D> edgeList , std::vector< std::vector<vertex3D> >) ;
     void generateTopView() ;
     void generateFrontView() ;
     void generateSideView() ;
