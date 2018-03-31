@@ -27,9 +27,16 @@ public:
     std::vector<std::vector<edge2D> > getViews() ;
     float* getMinXY() ;
     void generateIsometric() ;
-    bool checkHides(edge3D edge , std::vector<vertex3D> plane , int direction) ;
+//    bool checkHides(edge3D edge , std::vector<vertex3D> plane , int direction) ;
     bool hiddenInView(edge3D edge , int direction ) ;
-
+    bool checkHides(edge3D edge, std::vector<vertex3D> plane3D , int direction) ;
+    edge2D get2DEdge(edge3D edge3d ,  int direction ) ;
+    std::vector<vertex2D> getPlane2D(std::vector<vertex3D> plane3D ,  int direction ) ;
+    bool isInside(std::vector<vertex2D> polygon, int n, vertex2D p) ;
+    bool doIntersect(vertex2D p1, vertex2D q1, vertex2D p2, vertex2D q2) ;
+    int orientation(vertex2D p, vertex2D q, vertex2D r) ;
+    bool onSegment(vertex2D p, vertex2D q, vertex2D r) ;
+    bool canHide(edge3D edge, std::vector<vertex3D> plane3D , int direction) ;
 };
 
 #endif

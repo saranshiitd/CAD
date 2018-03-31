@@ -145,7 +145,7 @@ std::vector<std::vector<edge2D> > TwoDObj::getViews(){
 
 };
 
-bool onSegment(Vertex2D p, Vertex2D q, Vertex2D r)
+bool TwoDObj::onSegment(vertex2D p, vertex2D q, vertex2D r)
 {
     if (q.a <= max(p.a, r.a) && q.a >= min(p.a, r.a) &&
             q.b <= max(p.b, r.b) && q.b >= min(p.b, r.b))
@@ -153,7 +153,7 @@ bool onSegment(Vertex2D p, Vertex2D q, Vertex2D r)
     return false;
 }
 
-int orientation(Vertex2D p, Vertex2D q, Vertex2D r)
+int TwoDObj::orientation(vertex2D p, vertex2D q, vertex2D r)
 {
     int val = (q.b - p.b) * (r.a - q.a) -
               (q.a - p.a) * (r.b - q.b);
@@ -162,7 +162,7 @@ int orientation(Vertex2D p, Vertex2D q, Vertex2D r)
     return (val > 0)? 1: 2; // clock or counterclock wise
 }
 
-bool doIntersect(Vertex2D p1, Vertex2D q1, Vertex2D p2, Vertex2D q2)
+bool TwoDObj::doIntersect(vertex2D p1, vertex2D q1, vertex2D p2, vertex2D q2)
 {
     // Find the four orientations needed for general and
     // special cases
@@ -191,13 +191,13 @@ bool doIntersect(Vertex2D p1, Vertex2D q1, Vertex2D p2, Vertex2D q2)
     return false; // Doesn't fall in any of the above cases
 }
 
-bool isInside(std::vector<vertex2D> polygon, int n, Vertex2D p)
+bool TwoDObj::isInside(std::vector<vertex2D> polygon, int n, vertex2D p)
 {
     // There must be at least 3 vertices in polygon[]
     if (n < 3)  return false;
 
     // Create a point for line segment from p to infinite
-    Point extreme = {INF, p.b};
+    vertex2D extreme = {INF, p.b};
 
     // Count intersections of the above line with sides of polygon
     int count = 0, i = 0;
@@ -224,7 +224,7 @@ bool isInside(std::vector<vertex2D> polygon, int n, Vertex2D p)
     return count&1;  // Same as (count%2 == 1)
 }
 
-std::vector<vertex2D> getPlane2D(std::vector<vertex3D> plane3D ,  int direction ){ // 0 for top view ,  1 for front view , 2 for side view
+std::vector<vertex2D> TwoDObj::getPlane2D(std::vector<vertex3D> plane3D ,  int direction ){ // 0 for top view ,  1 for front view , 2 for side view
     std::vector<vertex2D> plane2D ;
     if(direction == 0) {
         for(unsigned i=0 ; i< plane3D.size() ; i++ ) {
@@ -253,7 +253,7 @@ std::vector<vertex2D> getPlane2D(std::vector<vertex3D> plane3D ,  int direction 
     }
 }
 
-edge2D get2DEdge(edge3D edge3d ,  int direction ){
+edge2D TwoDObj::get2DEdge(edge3D edge3d ,  int direction ){
     if(direction == 0 ) {
         vertex2D v1 = {edge3d.v1.a,edge3d.v1.b} ;
         vertex2D v2 = {edge3d.v2.a,edge3d.v2.b} ;
@@ -274,7 +274,7 @@ edge2D get2DEdge(edge3D edge3d ,  int direction ){
     }
 }
 
-bool canHide(edge3D edge, std::vector<vertex3D> plane3D , int direction) {
+bool TwoDObj::canHide(edge3D edge, std::vector<vertex3D> plane3D , int direction) {
     if(direction == 0 ){
         for(unsigned i = 0 ; i < plane3D.size() ; i+=1) {
             if(edge.v1.c < plane3D[i].c || edge.v2.c < plane3D[i].c ) return true ;
@@ -296,7 +296,7 @@ bool canHide(edge3D edge, std::vector<vertex3D> plane3D , int direction) {
 }
 
 bool TwoDObj::checkHides(edge3D edge, std::vector<vertex3D> plane3D , int direction) {
-    bool hidingPot = canHide(edge,plane3D) ;
+    bool hidingPot = canHide(edge,plane3D,direction) ;
     if(!hidingPot) return false ;
     edge2D edge2d = get2DEdge(edge,direction);
     std::vector<vertex2D> plane2D = getPlane2D(plane3D,direction) ;
@@ -307,8 +307,8 @@ bool TwoDObj::checkHides(edge3D edge, std::vector<vertex3D> plane3D , int direct
 }
 
 bool TwoDObj::hiddenInView(edge3D edge , int direction) {
-    for(unsigned i=0; i< faceList.size() ; i+= 1) {
-        bool hidden = checkHides(edge , faceList[i] , direction) ;
+    for(unsigned i=0; i< TwoDObj::faceList.size() ; i+= 1) {
+        bool hidden = checkHides(edge , TwoDObj::faceList[i] , direction) ;
         if(hidden) return true ;
     }
     return false ;
