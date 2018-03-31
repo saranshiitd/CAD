@@ -9,10 +9,17 @@ class TwoDObj{
 public:
     std::vector<vertex3D> vertices ;
     std::vector<edge3D> edgeList ;
+    std::vector< std::vector<vertex3D> > faceList ;
     std::vector<edge2D> topView ;
-    std::vector<edge2D> frontView;
+    std::vector<edge2D> frontView ;
     std::vector<edge2D> sideView ;
     std::vector<edge2D> isometricView ;
+    std::vector<edge2D> topViewHidden ;
+    std::vector<edge2D> topViewVis ;
+    std::vector<edge2D> frontViewHidden ;
+    std::vector<edge2D> frontViewVis ;
+    std::vector<edge2D> sideViewHidden ;
+    std::vector<edge2D> sideViewVis ;
     TwoDObj(std::vector<vertex3D> vertices , std::vector<edge3D> edgeList) ;
     void generateTopView() ;
     void generateFrontView() ;
@@ -20,6 +27,9 @@ public:
     std::vector<std::vector<edge2D> > getViews() ;
     float* getMinXY() ;
     void generateIsometric() ;
+    bool checkHides(edge3D edge , std::vector<vertex3D> plane , int direction) ;
+    bool hiddenInView(edge3D edge , int direction ) ;
+
 };
 
 #endif
