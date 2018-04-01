@@ -183,19 +183,26 @@ int main(int argc, char *argv[])
 
             // else : parse lineHeader
             if ( strcmp( lineHeader, "v" ) == 0 ){
+                cout << "v ";
                 fscanf(file, "%f %f %f\n", &localVertex.a, &localVertex.b, &localVertex.c );
                 wireframe.addVertex(localVertex);
+                generalMethods::printVertex(localVertex);cout << "\n";
+
             }
             else if ( strcmp( lineHeader, "vt" ) == 0 ){
                 char c = ' ';
+                cout << "vt ";
                 while(c!='\n'){
                     fscanf(file, "%c", &c);
+                    cout << c;
                 }
             }
             else if ( strcmp( lineHeader, "vn" ) == 0 ){
                 char c = ' ';
+                cout <<"vn ";
                 while(c!='\n'){
                     fscanf(file, "%c", &c);
+                    cout << c;
                 }
             }
             else if ( strcmp( lineHeader, "f" ) == 0 ){
@@ -204,11 +211,11 @@ int main(int argc, char *argv[])
                 cout << firstVertex;
                 while(1){
                     char c;
-                    c = fgetc(file);
+                    fscanf(file, "%c", &c);
                     cout << c;
                     if(c == '/'){
                         while(c!=' '){
-                            c = fgetc(file);
+                            fscanf(file, "%c", &c);
                             cout << c;
                         }
                     }
@@ -231,7 +238,8 @@ int main(int argc, char *argv[])
                 } 
                 if(flagEndOfFile = 1) break;  
             }
-            else if( strcmp( lineHeader, "\n" ) == 0){}
+            else if( strcmp( lineHeader, "\n" ) == 0)
+                {cout <<"\n";}
             else{
                 char c = ' ';
                 while(c!='\n'){
