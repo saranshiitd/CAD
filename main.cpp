@@ -230,11 +230,13 @@ int main(int argc, char *argv[])
                         cout << c;
                         break;
                     }
-                    fscanf(file, "%d",&secondVertex);
-                    cout << secondVertex;
-                    wireframe.addEdge({ wireframe.vertexList.at(firstVertex-1), wireframe.vertexList.at(secondVertex-1) });
+                    if(flagEndOfFile!=1){
+                        fscanf(file, "%d",&secondVertex);
+                        cout << secondVertex;
+                        wireframe.addEdge({ wireframe.vertexList.at(firstVertex-1), wireframe.vertexList.at(secondVertex-1) });
 
-                    firstVertex = secondVertex;
+                        firstVertex = secondVertex;
+                    }
                 } 
                 if(flagEndOfFile == 1) break;  
             }
@@ -248,7 +250,7 @@ int main(int argc, char *argv[])
             }
         // end of while
         }
-
+        cout << "Hello world!\n";
         wireframe.generateFullBody();
         TwoDObj *twodObj = new TwoDObj(wireframe.vertexList, wireframe.edgeList ,  wireframe.getfaces() ) ;
         cout<<"calling getviews" << endl ;
@@ -328,9 +330,9 @@ int main(int argc, char *argv[])
 
         l.setPicture(pi);
         l.show();
-        QLabel l2 ;
-        l2.setPicture(pi);
-        l2.show();
+//        QLabel l2 ;
+//        l2.setPicture(pi);
+//        l2.show();
         return a.exec();
         // end of 3d->2d
     }
