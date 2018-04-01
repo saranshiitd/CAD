@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     structs.cpp \
     TwoDObj.cpp \
     wireframe.cpp \
-    VertexList2D.cpp
+    VertexList2D.cpp \
+    options.cpp \
+    selection.cpp
 
 HEADERS  += mainwindow.h \
     EdgeList2D.h \
@@ -36,6 +38,9 @@ HEADERS  += mainwindow.h \
     Plane.h \
     TwoDObj.h \
     wireframe.h \
-    VertexList2D.h
+    VertexList2D.h \
+    options.h \
+    selection.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    selection.ui

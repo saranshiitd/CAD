@@ -368,17 +368,7 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: main.cpp mainwindow.h \
-		wireframe.h \
-		structs.h \
-		VertexList2D.h \
-		EdgeList2D.h \
-		basicLoopEdgeSet.h \
-		faceLoop.h \
-		bodyLoop.h \
-		generalMethods.h \
-		Plane.h \
-		TwoDObj.h
+main.o: main.cpp mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 mainwindow.o: mainwindow.cpp mainwindow.h \

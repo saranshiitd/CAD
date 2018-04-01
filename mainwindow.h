@@ -19,6 +19,8 @@ public:
 private slots:
     void on_horizontalSlider_valueChanged(int value);
 
+    void on_selectFile_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
