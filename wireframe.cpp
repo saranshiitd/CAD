@@ -11,7 +11,10 @@
 #include "bodyLoop.h"
 #include "faceLoop.h"
 #include <string>
-
+#include <algorithm> 
+#include <functional> 
+#include <cctype>
+#include <locale>
 using namespace std;
 
 
@@ -203,6 +206,8 @@ string getAFace(vector<edge3D> eList, vector<vertex3D> vList){
 		s+= to_string(pos);
 		s+= " ";
 	}	
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+    std::not1(std::ptr_fun<int, int>(std::isspace))));
 	return s;
 }
 
