@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 {
 
 
-   int from32 = 0;
+    int from32 = 0;
       cout << "Which conversion do you want\n"<< "1. From 2D to 3D reconstruction.\n" << "2. From 3D to 2D projections\n";
       while(from32!=1 and from32!=2){
         cin >> from32;
@@ -172,6 +172,7 @@ int main(int argc, char *argv[])
         vertex3D localVertex;
         edge3D localEdge;
         int firstVertex, secondVertex;
+        int flagEndOfFile = 0;
         while( 1 ){
 
             char lineHeader[128];
@@ -182,32 +183,39 @@ int main(int argc, char *argv[])
 
             // else : parse lineHeader
             if ( strcmp( lineHeader, "v" ) == 0 ){
+                cout << "v ";
                 fscanf(file, "%f %f %f\n", &localVertex.a, &localVertex.b, &localVertex.c );
                 wireframe.addVertex(localVertex);
+                generalMethods::printVertex(localVertex);cout << "\n";
+
             }
             else if ( strcmp( lineHeader, "vt" ) == 0 ){
                 char c = ' ';
+                cout << "vt ";
                 while(c!='\n'){
                     fscanf(file, "%c", &c);
+                    cout << c;
                 }
             }
             else if ( strcmp( lineHeader, "vn" ) == 0 ){
                 char c = ' ';
+                cout <<"vn ";
                 while(c!='\n'){
                     fscanf(file, "%c", &c);
+                    cout << c;
                 }
             }
             else if ( strcmp( lineHeader, "f" ) == 0 ){
-                int flagEndOfFile = 0;
+                cout << "f ";
                 fscanf(file, "%d",&firstVertex);
                 cout << firstVertex;
                 while(1){
                     char c;
-                    c = fgetc(file);
-                    cout << c;
+                    fscanf(file, "%c", &c);
                     if(c == '/'){
+                        cout << c;
                         while(c!=' '){
-                            c = fgetc(file);
+                            fscanf(file, "%c", &c);
                             cout << c;
                         }
                     }
@@ -228,9 +236,10 @@ int main(int argc, char *argv[])
 
                     firstVertex = secondVertex;
                 } 
-                if(flagEndOfFile = 1) break;  
+                if(flagEndOfFile == 1) break;  
             }
-            else if( strcmp( lineHeader, "\n" ) == 0){}
+            else if( strcmp( lineHeader, "\n" ) == 0)
+                {cout <<"\n";}
             else{
                 char c = ' ';
                 while(c!='\n'){
@@ -325,5 +334,5 @@ int main(int argc, char *argv[])
         return a.exec();
         // end of 3d->2d
     }
-
+    return 0 ;
 }
