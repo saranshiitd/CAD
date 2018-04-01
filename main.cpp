@@ -186,8 +186,18 @@ int main(int argc, char *argv[])
                 fscanf(file, "%f %f %f\n", &localVertex.a, &localVertex.b, &localVertex.c );
                 wireframe.addVertex(localVertex);
             }
-            else if ( strcmp( lineHeader, "vt" ) == 0 ){}
-            else if ( strcmp( lineHeader, "vn" ) == 0 ){}
+            else if ( strcmp( lineHeader, "vt" ) == 0 ){
+                char c = ' ';
+                while(c!='\n'){
+                    fscanf(file, "%c", &c);
+                }
+            }
+            else if ( strcmp( lineHeader, "vn" ) == 0 ){
+                char c = ' ';
+                while(c!='\n'){
+                    fscanf(file, "%c", &c);
+                }
+            }
             else if ( strcmp( lineHeader, "f" ) == 0 ){
                 int flagEndOfFile = 0;
                 fscanf(file, "%d",&firstVertex);
@@ -220,6 +230,13 @@ int main(int argc, char *argv[])
                     firstVertex = secondVertex;
                 } 
                 if(flagEndOfFile = 1) break;  
+            }
+            else if( strcmp( lineHeader, "\n" ) == 0){}
+            else{
+                char c = ' ';
+                while(c!='\n'){
+                    fscanf(file, "%c", &c);
+                }                
             }
         // end of while
         }
