@@ -6,13 +6,20 @@
 #define FACTOR 200
 #define INF 10000
 #define EPSILON 0.000001
-TwoDObj::TwoDObj(std::vector<vertex3D> vertices, std::vector<edge3D> edgeList , std::vector< std::vector<vertex3D> > faces) {
+TwoDObj::TwoDObj(std::vector<vertex3D> vertices, std::vector<edge3D> edgeListArg , std::vector< std::vector<vertex3D> > faces) {
     this->orignalVertices = vertices ;
-    this->orignalEdgeList = edgeList ;
+    this->orignalEdgeList = edgeListArg ;
     this->orignalFaceList = faces ;
     this->vertices = vertices ;
-    this->edgeList = edgeList ;
+    this->edgeList = edgeListArg ;
     this->faceList = faces ;
+//    for(unsigned i=0 ; i< edgeList.size() ; i+=1){
+//        std::vector<edge3D> currentEdge = divideEdge(edgeList[i]) ;
+//        for(unsigned j=0 ; j<currentEdge.size() ; j+=1){
+//            this->orignalEdgeList.push_back(currentEdge[j]);
+//        }
+//    }
+//    this->edgeList = this->orignalEdgeList ;
     generateTopView() ;
     generateSideView() ;
     generateFrontView() ;
@@ -208,7 +215,9 @@ bool TwoDObj::doIntersect(vertex2D p1, vertex2D q1, vertex2D p2, vertex2D q2)
     return false; // Doesn't fall in any of the above cases
 }
 
-bool TwoDObj::isInside(std::vector<vertex2D> polygon, int n, vertex2D p)
+
+// 0 if not inside, 1 if on polygon , 2 if inside
+int TwoDObj::isInside(std::vector<vertex2D> polygon, int n, vertex2D p)
 {
 
     // There must be at least 3 vertices in polygon[]
@@ -236,7 +245,13 @@ bool TwoDObj::isInside(std::vector<vertex2D> polygon, int n, vertex2D p)
                     p.print();
                     cout<<endl;
                 }
-                return onSegment(polygon[i], p, polygon[next]);
+                if(onSegment(polygon[i], p, polygon[next])) {
+                    return 1 ;
+                }else {
+                    return 0 ;
+                }
+
+//                return onSegment(polygon[i], p, polygon[next]);
             }
 
             count++;
@@ -251,7 +266,14 @@ bool TwoDObj::isInside(std::vector<vertex2D> polygon, int n, vertex2D p)
         p.print();
         cout<<endl;
     }
-    return count&1;  // Same as (count%2 == 1)
+    if(count&1) {
+        return 2 ;
+    }
+    else {
+        return 0 ;
+    }
+//    return count&1;  // Same as (count%2 == 1)
+
 }
 
 std::vector<vertex2D> TwoDObj::getPlane2D(std::vector<vertex3D> plane3D ,  int direction ){ // 0 for top view ,  1 for front view , 2 for side view
@@ -353,8 +375,8 @@ bool TwoDObj::checkHides(edge3D edge, std::vector<vertex3D> plane3D , int direct
     if(!hidingPot) return false ;
     edge2D edge2d = get2DEdge(edge,direction);
     std::vector<vertex2D> plane2D = getPlane2D(plane3D,direction) ;
-    bool v1Inside = isInside(plane2D , plane2D.size() , edge2d.v1) ;
-    bool v2Inside = isInside(plane2D , plane2D.size(), edge2d.v2) ;
+    int v1Inside = isInside(plane2D , plane2D.size() , edge2d.v1) ;
+    int v2Inside = isInside(plane2D , plane2D.size(), edge2d.v2) ;
     if(v1Inside && v2Inside) {
         cout<<"hides answer"<<endl ;
         printPlane(plane3D);
@@ -363,8 +385,13 @@ bool TwoDObj::checkHides(edge3D edge, std::vector<vertex3D> plane3D , int direct
         edge.v2.print();
         cout<<endl ;
     }
-    return v1Inside && v2Inside ;
-
+    if(v1Inside==2 || v2Inside ==2) {
+        return true ;
+    }
+    else if(v1Inside == 1 && v2Inside ==1){
+        return true ;
+    }
+    return false ;
 }
 
 bool TwoDObj::hiddenInView(edge3D edge , int direction) {
@@ -679,4 +706,29 @@ void TwoDObj::applyRotation(float angles[]) {
     generateIsometric();
 
 
+}
+
+std::vector<edge3D> TwoDObj::divideEdge(edge3D edge){
+    vertex3D v1 = edge.v1 ;
+    vertex3D v2 = edge.v2 ;
+    float dir_a = v1.a - v2.a ;
+    float dir_b = v1.b - v2.b ;
+    float dir_c = v1.c - v2.c ;
+    dir_a = dir_a/2.0 ;
+    dir_b = dir_b / 2.0 ;
+    dir_c = dir_c / 2.0 ;
+    float curr_a = v1.a ;
+    float curr_b = v1.b ;
+    float curr_c = v1.c ;
+    vector<edge3D> edges ;
+    for(unsigned i=0 ; i<2 ; i+=1){
+        vertex3D currV1 = {curr_a , curr_b , curr_c } ;
+        vertex3D currV2 = {curr_a + dir_a , curr_b + dir_b , curr_c + dir_c} ;
+        edge3D currEdge = {currV1 , currV2} ;
+        edges.push_back( currEdge );
+        curr_a += dir_a ;
+        curr_b += dir_b ;
+        curr_c += dir_c ;
+     }
+    return edges ;
 }

@@ -314,7 +314,7 @@ int main(int argc, char *argv[])
     QPainter p(&pi);
     edge2D currentEdge ;
     p.setRenderHint(QPainter::Antialiasing);
-    p.setPen(QPen(Qt::green, 2, Qt::DashLine, Qt::RoundCap));
+    p.setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::RoundCap));
     p.scale(0.9,-0.9);
 //    p.translate(-600,-600);
 
@@ -381,5 +381,8 @@ int main(int argc, char *argv[])
 
     l.setPicture(pi);
     l.show();
+    QLabel l2 ;
+    l2.setPicture(pi);
+    l2.show();
     return a.exec();
 }
