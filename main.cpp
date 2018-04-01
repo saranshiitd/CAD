@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
 
 //            /\			 --------			/\
 //           /  \			|		|		   /  \
-//          /    \		|		|         /   \
-//         /      \	  	|		|        /     \
+//          /    \		    |		|         /   \
+//         /      \	  	    |		|        /     \
 //        ----------		 --------        ______
 
 //    */
@@ -268,7 +268,7 @@ int main(int argc, char *argv[])
     /****************/
         wireFrame wireframe;
         wireframe.generateWireFrame(frontProjVertex, topProjVertex, sideProjVertex,
-            frontProjEdges, topProjEdges, sideProjEdges );
+        frontProjEdges, topProjEdges, sideProjEdges );
 
         wireframe.printVertices();
         wireframe.printEdges();
@@ -278,9 +278,9 @@ int main(int argc, char *argv[])
 
         wireframe.generateBodyLoops() ;
 
-    /******************/
+        /******************/
         // writing object to obj file
-        ofstream myfile ("halfHollowCube.obj");
+        ofstream myfile ("output.obj");
         string vertices = wireframe.getVertices();
         myfile << vertices;
 
@@ -289,7 +289,7 @@ int main(int argc, char *argv[])
 
 
         myfile.close();
-    /*****************/
+        /*****************/
 
 
 

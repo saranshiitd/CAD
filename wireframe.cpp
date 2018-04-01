@@ -75,9 +75,13 @@ void wireFrame::generateWireFrame(VertexList2D v_listF, VertexList2D v_listT, Ve
 		}
 	}
 
-	//procedurePEVR();
+}
+
+void wireFrame::generateFullBody(){
+	procedurePEVR();
 	planes = generatePlanes();
 	generateFaceLoops();
+	generateBodyLoops();
 }
 
 
@@ -557,7 +561,7 @@ edge3D getRemovedVertexEdge(edge3D e1, edge3D e2, vertex3D v){
 	return anEdge;
 }
 void wireFrame::procedurePEVR(){
-
+	cout << "procedurePEVR :(\n";
 	int flag = 1;
 	while(flag!=0)
 	{
