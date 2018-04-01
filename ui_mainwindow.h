@@ -16,6 +16,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QSlider>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -26,6 +27,9 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
+    QSlider *horizontalSlider;
+    QSlider *horizontalSlider_2;
+    QSlider *horizontalSlider_3;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -37,6 +41,19 @@ public:
         MainWindow->resize(400, 300);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        horizontalSlider = new QSlider(centralWidget);
+        horizontalSlider->setObjectName(QStringLiteral("horizontalSlider"));
+        horizontalSlider->setGeometry(QRect(230, 0, 160, 29));
+        horizontalSlider->setMaximum(180);
+        horizontalSlider->setOrientation(Qt::Horizontal);
+        horizontalSlider_2 = new QSlider(centralWidget);
+        horizontalSlider_2->setObjectName(QStringLiteral("horizontalSlider_2"));
+        horizontalSlider_2->setGeometry(QRect(230, 40, 160, 29));
+        horizontalSlider_2->setOrientation(Qt::Horizontal);
+        horizontalSlider_3 = new QSlider(centralWidget);
+        horizontalSlider_3->setObjectName(QStringLiteral("horizontalSlider_3"));
+        horizontalSlider_3->setGeometry(QRect(230, 80, 160, 29));
+        horizontalSlider_3->setOrientation(Qt::Horizontal);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));

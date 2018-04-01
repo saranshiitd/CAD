@@ -122,6 +122,7 @@ public:
 	void reverseFaceLoops();
 
     std::vector< std::vector<vertex3D> > getfaces() ;
+    void generateFullBody();
 
 private:
 		// sort all edges at a vertex in clockwise direction
