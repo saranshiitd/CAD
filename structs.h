@@ -123,7 +123,7 @@ struct vertex3D{
     // equality for two 3D vertices (method overloading)
     bool operator==(const vertex3D& n)
     {
-        return (abs(a - n.a) < 0.01) && (abs(b - n.b) < 0.01) && (abs(c - n.c) < 0.01);
+        return (abs(a - n.a) < 0.0001) && (abs(b - n.b) < 0.0001) && (abs(c - n.c) < 0.0001);
     }
 
     void print(){

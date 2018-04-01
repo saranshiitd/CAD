@@ -47,7 +47,7 @@ public:
     std::vector<vertex3D> rotatePlane(float rotationM[][3] , std::vector<vertex3D> plane3D);
     void rotationOnVertices(float rotationM[][3]);
     vertex3D rotateVertex(vertex3D vertex , float rotationM[][3]);
-
+    bool planeContainsEdge(edge3D edge, std::vector<vertex3D> plane3D) ;
 
 };
 

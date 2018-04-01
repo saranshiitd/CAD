@@ -296,7 +296,7 @@ int main(int argc, char *argv[])
 
     TwoDObj *twodObj = new TwoDObj(wireframe.vertexList, wireframe.edgeList ,  wireframe.getfaces() ) ;
     cout<<"calling getviews" << endl ;
-    float angles[] = {0.0 , 0.0 , 1.57 } ;
+    float angles[] = {0.0 , 0.0 , 1.0 } ;
     twodObj->applyRotation(angles);
     std::vector< std::vector<edge2D> > views = twodObj->getViews() ;
     std::vector<edge2D> topViewEdges = views[0] ;
@@ -314,7 +314,7 @@ int main(int argc, char *argv[])
     QPainter p(&pi);
     edge2D currentEdge ;
     p.setRenderHint(QPainter::Antialiasing);
-    p.setPen(QPen(Qt::black, 2, Qt::DashLine, Qt::RoundCap));
+    p.setPen(QPen(Qt::green, 2, Qt::DashLine, Qt::RoundCap));
     p.scale(0.9,-0.9);
 //    p.translate(-600,-600);
 
