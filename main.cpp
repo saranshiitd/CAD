@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 {
 
 
-   int from32 = 0;
+    int from32 = 0;
       cout << "Which conversion do you want\n"<< "1. From 2D to 3D reconstruction.\n" << "2. From 3D to 2D projections\n";
       while(from32!=1 and from32!=2){
         cin >> from32;
@@ -173,6 +173,7 @@ int main(int argc, char *argv[])
         vertex3D localVertex;
         edge3D localEdge;
         int firstVertex, secondVertex;
+        int flagEndOfFile = 0;
         while( 1 ){
 
             char lineHeader[128];
@@ -206,14 +207,14 @@ int main(int argc, char *argv[])
                 }
             }
             else if ( strcmp( lineHeader, "f" ) == 0 ){
-                int flagEndOfFile = 0;
+                cout << "f ";
                 fscanf(file, "%d",&firstVertex);
                 cout << firstVertex;
                 while(1){
                     char c;
                     fscanf(file, "%c", &c);
-                    cout << c;
                     if(c == '/'){
+                        cout << c;
                         while(c!=' '){
                             fscanf(file, "%c", &c);
                             cout << c;
@@ -236,7 +237,7 @@ int main(int argc, char *argv[])
 
                     firstVertex = secondVertex;
                 } 
-                if(flagEndOfFile = 1) break;  
+                if(flagEndOfFile == 1) break;  
             }
             else if( strcmp( lineHeader, "\n" ) == 0)
                 {cout <<"\n";}
@@ -334,5 +335,5 @@ int main(int argc, char *argv[])
         return a.exec();
         // end of 3d->2d
     }
-
+    return 0 ;
 }
