@@ -7,6 +7,9 @@ using namespace std;
 
 class TwoDObj{
 public:
+    std::vector<vertex3D> orignalVertices ;
+    std::vector<edge3D> orignalEdgeList ;
+    std::vector< std::vector<vertex3D> > orignalFaceList ;
     std::vector<vertex3D> vertices ;
     std::vector<edge3D> edgeList ;
     std::vector< std::vector<vertex3D> > faceList ;
@@ -37,6 +40,15 @@ public:
     int orientation(vertex2D p, vertex2D q, vertex2D r) ;
     bool onSegment(vertex2D p, vertex2D q, vertex2D r) ;
     bool canHide(edge3D edge, std::vector<vertex3D> plane3D , int direction) ;
+    void applyRotation(float angles[3]) ;
+    void rotationOnEdges(float rotationM[][3]) ;
+    edge3D rotateEdge(edge3D edge ,float rotationM[][3]);
+    void rotationOnPlane(float rotationM[][3]);
+    std::vector<vertex3D> rotatePlane(float rotationM[][3] , std::vector<vertex3D> plane3D);
+    void rotationOnVertices(float rotationM[][3]);
+    vertex3D rotateVertex(vertex3D vertex , float rotationM[][3]);
+
+
 };
 
 #endif

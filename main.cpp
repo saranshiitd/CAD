@@ -296,6 +296,8 @@ int main(int argc, char *argv[])
 
     TwoDObj *twodObj = new TwoDObj(wireframe.vertexList, wireframe.edgeList ,  wireframe.getfaces() ) ;
     cout<<"calling getviews" << endl ;
+    float angles[] = {0.0 , 0.0 , 1.57 } ;
+    twodObj->applyRotation(angles);
     std::vector< std::vector<edge2D> > views = twodObj->getViews() ;
     std::vector<edge2D> topViewEdges = views[0] ;
     std::vector<edge2D> frontViewEdges = views[1] ;
@@ -312,12 +314,31 @@ int main(int argc, char *argv[])
     QPainter p(&pi);
     edge2D currentEdge ;
     p.setRenderHint(QPainter::Antialiasing);
-    p.setPen(QPen(Qt::black, 3, Qt::SolidLine, Qt::RoundCap));
+    p.setPen(QPen(Qt::black, 2, Qt::DashLine, Qt::RoundCap));
     p.scale(0.9,-0.9);
 //    p.translate(-600,-600);
 
     // p.drawLine(0, 0, 200, 200);
     float x, y, prev_x=0, prev_y=0 ;
+    for(unsigned i = 0 ; i < frontViewHidden.size();i+=1){
+        currentEdge = frontViewHidden[i] ;
+        firstPoint = currentEdge.v1.getCoordinates() ;
+        secondPoint = currentEdge.v2.getCoordinates() ;
+        p.drawLine(firstPoint[0],firstPoint[1],secondPoint[0],secondPoint[1] );
+    }
+    for(unsigned i = 0 ; i < sideViewHidden.size();i+=1){
+        currentEdge = sideViewHidden[i] ;
+        firstPoint = currentEdge.v1.getCoordinates() ;
+        secondPoint = currentEdge.v2.getCoordinates() ;
+        p.drawLine(firstPoint[0],firstPoint[1],secondPoint[0],secondPoint[1] );
+    }
+    for(unsigned i = 0 ; i < topViewHidden.size();i+=1){
+        currentEdge = topViewHidden[i] ;
+        firstPoint = currentEdge.v1.getCoordinates() ;
+        secondPoint = currentEdge.v2.getCoordinates() ;
+        p.drawLine(firstPoint[0],firstPoint[1],secondPoint[0],secondPoint[1] );
+    }
+    p.setPen(QPen(Qt::black, 3, Qt::SolidLine, Qt::RoundCap));
     for(unsigned i = 0 ; i < topViewEdges.size();i+=1){
         currentEdge = topViewEdges[i] ;
         firstPoint = currentEdge.v1.getCoordinates() ;
@@ -345,25 +366,7 @@ int main(int argc, char *argv[])
     float* set = twodObj->getMinXY() ;
     p.drawLine(400+set[1],-100+set[0],400+set[1],1000+set[0]);
     p.drawLine(0+set[1],400+set[0],900+set[1],400+set[0]);
-    p.setPen(QPen(Qt::black, 2, Qt::DashLine, Qt::RoundCap));
-    for(unsigned i = 0 ; i < frontViewHidden.size();i+=1){
-        currentEdge = frontViewHidden[i] ;
-        firstPoint = currentEdge.v1.getCoordinates() ;
-        secondPoint = currentEdge.v2.getCoordinates() ;
-        p.drawLine(firstPoint[0],firstPoint[1],secondPoint[0],secondPoint[1] );
-    }
-    for(unsigned i = 0 ; i < sideViewHidden.size();i+=1){
-        currentEdge = sideViewHidden[i] ;
-        firstPoint = currentEdge.v1.getCoordinates() ;
-        secondPoint = currentEdge.v2.getCoordinates() ;
-        p.drawLine(firstPoint[0],firstPoint[1],secondPoint[0],secondPoint[1] );
-    }
-    for(unsigned i = 0 ; i < topViewHidden.size();i+=1){
-        currentEdge = topViewHidden[i] ;
-        firstPoint = currentEdge.v1.getCoordinates() ;
-        secondPoint = currentEdge.v2.getCoordinates() ;
-        p.drawLine(firstPoint[0],firstPoint[1],secondPoint[0],secondPoint[1] );
-    }
+
 
 //    for (int i = 1; i < SIZE; ++i){
 //         x = i*STEP;
