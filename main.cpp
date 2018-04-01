@@ -13,6 +13,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm> 
+#include <functional> 
+#include <cctype>
+#include <locale>
 #include "TwoDObj.h"
 
 #define PI 3.1415926536
@@ -159,8 +163,27 @@ int main(int argc, char *argv[])
             scanf("%s",filename);
             strcpy(outFilename,filename);
             strcat(filename,".obj");
+
+
+            ifstream myfile (filename);
+            ofstream tempFile ("tempFile.txt");
+              if (myfile.is_open())
+              { string s;
+                while ( getline (myfile,s) )
+                {
+                    s.erase(std::find_if(s.rbegin(), s.rend(),
+                    std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+                    tempFile << s;
+                    tempFile << "\n";
+                }
+                myfile.close();
+                tempFile.close();
+              }
+
+              else cout << "Unable to open file";
+
             //cout << filename;
-            file = fopen(filename, "r");
+            file = fopen("tempFile.txt", "r");
             fileOpenFlag = 1;
             if( file == NULL ){
                 fileOpenFlag = 0;
@@ -168,12 +191,17 @@ int main(int argc, char *argv[])
                 //return false;
             }
         }
+
+
         // generate a body with this obj file and take its projection
         wireFrame wireframe;
         vertex3D localVertex;
         edge3D localEdge;
         int firstVertex, secondVertex;
         int flagEndOfFile = 0;
+
+        //ofstream tempFile ("tempFile2.txt");
+
         while( 1 ){
 
             char lineHeader[128];
@@ -181,10 +209,14 @@ int main(int argc, char *argv[])
             int res = fscanf(file, "%s", lineHeader);
             if (res == EOF)
                 break; // EOF = End Of File. Quit the loop.
-
+            cout << lineHeader << " ";
+            if(strcmp( lineHeader, "\n" ) == 0){
+                flagEndOfFile =1;
+                break;
+            }
             // else : parse lineHeader
             if ( strcmp( lineHeader, "v" ) == 0 ){
-                cout << "v ";
+                //cout << "v ";
                 fscanf(file, "%f %f %f\n", &localVertex.a, &localVertex.b, &localVertex.c );
                 wireframe.addVertex(localVertex);
                 generalMethods::printVertex(localVertex);cout << "\n";
@@ -192,7 +224,7 @@ int main(int argc, char *argv[])
             }
             else if ( strcmp( lineHeader, "vt" ) == 0 ){
                 char c = ' ';
-                cout << "vt ";
+                //cout << "vt ";
                 while(c!='\n'){
                     fscanf(file, "%c", &c);
                     cout << c;
@@ -200,55 +232,67 @@ int main(int argc, char *argv[])
             }
             else if ( strcmp( lineHeader, "vn" ) == 0 ){
                 char c = ' ';
-                cout <<"vn ";
+                //cout <<"vn ";
                 while(c!='\n'){
                     fscanf(file, "%c", &c);
                     cout << c;
                 }
             }
             else if ( strcmp( lineHeader, "f" ) == 0 ){
-                cout << "f ";
+               // tempFile << "f ";
                 fscanf(file, "%d",&firstVertex);
-                cout << firstVertex;
+               // tempFile << firstVertex;
                 while(1){
                     char c;
                     fscanf(file, "%c", &c);
                     if(c == '/'){
-                        cout << c;
+                        //tempFile << c;
                         while(c!=' '){
                             fscanf(file, "%c", &c);
-                            cout << c;
+                           // tempFile << c;
                         }
                     }
                     else if(c == ' '){
-                        cout << c;
+                        //tempFile << c;
                     }
                     else if(c == EOF){
+                        //tempFile << c;
                         flagEndOfFile =1;
                         break;
                     }
                     else if(c == '\n'){
-                        cout << c;
+                       // tempFile << c;
+                        fscanf(file, "%c", &c);
+                        if(c == '\n')
+                        flagEndOfFile=1;
                         break;
                     }
-                    fscanf(file, "%d",&secondVertex);
-                    cout << secondVertex;
-                    wireframe.addEdge({ wireframe.vertexList.at(firstVertex-1), wireframe.vertexList.at(secondVertex-1) });
+                    if(flagEndOfFile!=1){
+                        fscanf(file, "%d",&secondVertex);
+                        //tempFile << secondVertex;
+                        wireframe.addEdge({ wireframe.vertexList.at(firstVertex-1), wireframe.vertexList.at(secondVertex-1) });
 
-                    firstVertex = secondVertex;
+                        firstVertex = secondVertex;
+                    }
                 } 
                 if(flagEndOfFile == 1) break;  
             }
-            else if( strcmp( lineHeader, "\n" ) == 0)
-                {cout <<"\n";}
+            else if( strcmp( lineHeader, "\n" ) == 0){//cout <<"\n";
+                //char c;
+                //fscanf(file, "%c", &c); 
+                flagEndOfFile =1;
+            }
             else{
                 char c = ' ';
                 while(c!='\n'){
                     fscanf(file, "%c", &c);
+                   // tempFile << c;
                 }                
             }
+            if(flagEndOfFile == 1) break;  
         // end of while
         }
+        //tempFile.close();
 
         wireframe.getFullBody();
         TwoDObj *twodObj = new TwoDObj(wireframe.vertexList, wireframe.edgeList ,  wireframe.getfaces() ) ;
@@ -333,7 +377,7 @@ int main(int argc, char *argv[])
         l2.setPicture(pi);
         l2.show();
         return a.exec();
-        // end of 3d->2d
+        end of 3d->2d
     }
     return 0 ;
 }
