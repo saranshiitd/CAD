@@ -21,6 +21,12 @@ private slots:
 
     void on_selectFile_clicked();
 
+    void on_xSlider_valueChanged(int value);
+
+    void on_ySlider_valueChanged(int value);
+
+    void on_zSlider_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 };

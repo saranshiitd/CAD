@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     wireframe.cpp \
     VertexList2D.cpp \
     options.cpp \
-    selection.cpp
+    selection.cpp \
+    showprojections.cpp
 
 HEADERS  += mainwindow.h \
     EdgeList2D.h \
@@ -40,7 +41,9 @@ HEADERS  += mainwindow.h \
     wireframe.h \
     VertexList2D.h \
     options.h \
-    selection.h
+    selection.h \
+    showprojections.h
 
 FORMS    += mainwindow.ui \
-    selection.ui
+    selection.ui \
+    showprojections.ui

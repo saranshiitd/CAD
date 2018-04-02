@@ -25,3 +25,18 @@ void MainWindow::on_selectFile_clicked()
     QMessageBox::information(this,"...",filename) ;
 
 }
+
+void MainWindow::on_xSlider_valueChanged(int value)
+{
+
+}
+
+void MainWindow::on_ySlider_valueChanged(int value)
+{
+
+}
+
+void MainWindow::on_zSlider_valueChanged(int value)
+{
+
+}
