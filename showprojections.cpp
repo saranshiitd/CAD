@@ -46,84 +46,84 @@ ShowProjections::ShowProjections(QWidget *parent) :
          edge3D localEdge;
          int firstVertex, secondVertex;
          int flagEndOfFile = 0;
-         while( 1 ){
+        while( 1 ){
 
-             char lineHeader[128];
-             // read the first word of the line
-             int res = fscanf(file, "%s", lineHeader);
-             if (res == EOF)
-                 break; // EOF = End Of File. Quit the loop.
+            char lineHeader[128];
+            // read the first word of the line
+            int res = fscanf(file, "%s", lineHeader);
+            if (res == EOF)
+                break; // EOF = End Of File. Quit the loop.
+            cout << lineHeader;
+            // else : parse lineHeader
+            if ( strcmp( lineHeader, "v" ) == 0 ){
+                //cout << "v ";
+                fscanf(file, "%f %f %f\n", &localVertex.a, &localVertex.b, &localVertex.c );
+                wireframe.addVertex(localVertex);
+                generalMethods::printVertex(localVertex);cout << "\n";
 
-             // else : parse lineHeader
-             if ( strcmp( lineHeader, "v" ) == 0 ){
-                 cout << "v ";
-                 fscanf(file, "%f %f %f\n", &localVertex.a, &localVertex.b, &localVertex.c );
-                 wireframe.addVertex(localVertex);
-                 generalMethods::printVertex(localVertex);cout << "\n";
+            }
+            else if ( strcmp( lineHeader, "vt" ) == 0 ){
+                char c = ' ';
+               // cout << "vt ";
+                while(c!='\n'){
+                    fscanf(file, "%c", &c);
+                    cout << c;
+                }
+            }
+            else if ( strcmp( lineHeader, "vn" ) == 0 ){
+                char c = ' ';
+                //cout <<"vn ";
+                while(c!='\n'){
+                    fscanf(file, "%c", &c);
+                    cout << c;
+                }
+            }
+            else if ( strcmp( lineHeader, "f" ) == 0 ){
+                //cout << "f ";
+                fscanf(file, "%d",&firstVertex);
+                cout << firstVertex;
+                while(1){
+                    char c;
+                    fscanf(file, "%c", &c);
+                    // if(c == '/'){
+                    //     cout << c;
+                    //     while(c!=' '){
+                    //         fscanf(file, "%c", &c);
+                    //         cout << c;
+                    //     }
+                    // }
+                    if(c == ' '){
+                        cout << c;
+                    }
+                    else if(c == EOF){
+                        flagEndOfFile =1;
+                        break;
+                    }
+                    else if(c == '\n'){
+                        cout << c;
+                        break;
+                    }
+                    fscanf(file, "%d",&secondVertex);
+                    cout << secondVertex;
+                    wireframe.addEdge({ wireframe.vertexList.at(firstVertex-1), wireframe.vertexList.at(secondVertex-1) });
 
-             }
-             else if ( strcmp( lineHeader, "vt" ) == 0 ){
-                 char c = ' ';
-                 cout << "vt ";
-                 while(c!='\n'){
-                     fscanf(file, "%c", &c);
-                     cout << c;
-                 }
-             }
-             else if ( strcmp( lineHeader, "vn" ) == 0 ){
-                 char c = ' ';
-                 cout <<"vn ";
-                 while(c!='\n'){
-                     fscanf(file, "%c", &c);
-                     cout << c;
-                 }
-             }
-             else if ( strcmp( lineHeader, "f" ) == 0 ){
-                 cout << "f ";
-                 fscanf(file, "%d",&firstVertex);
-                 cout << firstVertex;
-                 while(1){
-                     char c;
-                     fscanf(file, "%c", &c);
-                     if(c == '/'){
-                         cout << c;
-                         while(c!=' '){
-                             fscanf(file, "%c", &c);
-                             cout << c;
-                         }
-                     }
-                     else if(c == ' '){
-                         cout << c;
-                     }
-                     else if(c == EOF){
-                         flagEndOfFile =1;
-                         break;
-                     }
-                     else if(c == '\n'){
-                         cout << c;
-                         break;
-                     }
-                     if(flagEndOfFile!=1){
-                         fscanf(file, "%d",&secondVertex);
-                         cout << secondVertex;
-                         wireframe.addEdge({ wireframe.vertexList.at(firstVertex-1), wireframe.vertexList.at(secondVertex-1) });
-
-                         firstVertex = secondVertex;
-                     }
-                 }
-                 if(flagEndOfFile == 1) break;
-             }
-             else if( strcmp( lineHeader, "\n" ) == 0)
-                 {cout <<"\n";}
-             else{
-                 char c = ' ';
-                 while(c!='\n'){
-                     fscanf(file, "%c", &c);
-                 }
-             }
-             if(flagEndOfFile==1) break;
-         // end of while
-         }
+                    firstVertex = secondVertex;
+                } 
+                if(flagEndOfFile == 1) break;  
+            }
+            else if( strcmp( lineHeader, "\n" ) == 0)
+                {
+                //    cout <<"\n";
+                }
+            else{
+                char c = ' ';
+                while(c!='\n'){
+                    fscanf(file, "%c", &c);
+                    cout << c;
+                }                
+            }
+        // end of while
+        }
 
 
           wireframe.generateFullBody();
