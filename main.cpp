@@ -155,12 +155,12 @@ int main(int argc, char *argv[])
     else{
         FILE * file;
         char filename[255];
-        char outFilename[255];
+        //char outFilename[255];
         int fileOpenFlag = 0;
         while(fileOpenFlag!=1){
             cout << "Enter the name of file containing information about 3D object\n";
             scanf("%s",filename);
-            strcpy(outFilename,filename);
+           // strcpy(outFilename,filename);
             strcat(filename,".obj");
             //cout << filename;
             file = fopen(filename, "r");
@@ -184,10 +184,10 @@ int main(int argc, char *argv[])
             int res = fscanf(file, "%s", lineHeader);
             if (res == EOF)
                 break; // EOF = End Of File. Quit the loop.
-
+            cout << lineHeader;
             // else : parse lineHeader
             if ( strcmp( lineHeader, "v" ) == 0 ){
-                cout << "v ";
+              //  cout << "v ";
                 fscanf(file, "%f %f %f\n", &localVertex.a, &localVertex.b, &localVertex.c );
                 wireframe.addVertex(localVertex);
                 generalMethods::printVertex(localVertex);cout << "\n";
@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
             }
             else if ( strcmp( lineHeader, "vt" ) == 0 ){
                 char c = ' ';
-                cout << "vt ";
+              //  cout << "vt ";
                 while(c!='\n'){
                     fscanf(file, "%c", &c);
                     cout << c;
@@ -203,14 +203,14 @@ int main(int argc, char *argv[])
             }
             else if ( strcmp( lineHeader, "vn" ) == 0 ){
                 char c = ' ';
-                cout <<"vn ";
+             //   cout <<"vn ";
                 while(c!='\n'){
                     fscanf(file, "%c", &c);
                     cout << c;
                 }
             }
             else if ( strcmp( lineHeader, "f" ) == 0 ){
-                cout << "f ";
+               // cout << "f ";
                 fscanf(file, "%d",&firstVertex);
                 cout << firstVertex;
                 while(1){
@@ -234,22 +234,26 @@ int main(int argc, char *argv[])
                         cout << c;
                         break;
                     }
-                    fscanf(file, "%d",&secondVertex);
-                    cout << secondVertex;
-                    wireframe.addEdge({ wireframe.vertexList.at(firstVertex-1), wireframe.vertexList.at(secondVertex-1) });
-
-                    firstVertex = secondVertex;
+                    if(flagEndOfFile!=1){
+                        fscanf(file, "%d",&secondVertex);
+                        cout << secondVertex;
+                        wireframe.addEdge({ wireframe.vertexList.at(firstVertex-1), wireframe.vertexList.at(secondVertex-1) });
+                        firstVertex = secondVertex;
+                    }
                 } 
                 if(flagEndOfFile == 1) break;  
             }
-            else if( strcmp( lineHeader, "\n" ) == 0)
-                {cout <<"\n";}
+            else if( strcmp( lineHeader, "\n" ) == 0){
+               // {cout <<"\n";}
+            }
             else{
                 char c = ' ';
                 while(c!='\n'){
                     fscanf(file, "%c", &c);
+                    cout << c;
                 }                
             }
+            if(flagEndOfFile==1) break;
         // end of while
         }
 
