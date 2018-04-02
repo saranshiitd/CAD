@@ -47,16 +47,18 @@ ShowProjections::ShowProjections(QWidget *parent) :
          int firstVertex, secondVertex;
          int flagEndOfFile = 0;
          while( 1 ){
-
+             cout<<"starting loop"<<endl ;
              char lineHeader[128];
              // read the first word of the line
-             int res = fscanf(file, "%s", lineHeader);
+             int res = 0  ;
+             res = fscanf(file, "%s", lineHeader);
+             cout<<"1"<<endl ;
              if (res == EOF)
                  break; // EOF = End Of File. Quit the loop.
-
+             cout << lineHeader;
              // else : parse lineHeader
              if ( strcmp( lineHeader, "v" ) == 0 ){
-                 cout << "v ";
+                 //cout << "v ";
                  fscanf(file, "%f %f %f\n", &localVertex.a, &localVertex.b, &localVertex.c );
                  wireframe.addVertex(localVertex);
                  generalMethods::printVertex(localVertex);cout << "\n";
@@ -64,7 +66,7 @@ ShowProjections::ShowProjections(QWidget *parent) :
              }
              else if ( strcmp( lineHeader, "vt" ) == 0 ){
                  char c = ' ';
-                 cout << "vt ";
+                 //cout << "vt ";
                  while(c!='\n'){
                      fscanf(file, "%c", &c);
                      cout << c;
@@ -72,14 +74,14 @@ ShowProjections::ShowProjections(QWidget *parent) :
              }
              else if ( strcmp( lineHeader, "vn" ) == 0 ){
                  char c = ' ';
-                 cout <<"vn ";
+                // cout <<"vn ";
                  while(c!='\n'){
                      fscanf(file, "%c", &c);
                      cout << c;
                  }
              }
              else if ( strcmp( lineHeader, "f" ) == 0 ){
-                 cout << "f ";
+                 //cout << "f ";
                  fscanf(file, "%d",&firstVertex);
                  cout << firstVertex;
                  while(1){
@@ -103,13 +105,11 @@ ShowProjections::ShowProjections(QWidget *parent) :
                          cout << c;
                          break;
                      }
-                     if(flagEndOfFile!=1){
-                         fscanf(file, "%d",&secondVertex);
-                         cout << secondVertex;
-                         wireframe.addEdge({ wireframe.vertexList.at(firstVertex-1), wireframe.vertexList.at(secondVertex-1) });
+                     fscanf(file, "%d",&secondVertex);
+                     cout << secondVertex;
+                     wireframe.addEdge({ wireframe.vertexList.at(firstVertex-1), wireframe.vertexList.at(secondVertex-1) });
 
-                         firstVertex = secondVertex;
-                     }
+                     firstVertex = secondVertex;
                  }
                  if(flagEndOfFile == 1) break;
              }
@@ -119,12 +119,12 @@ ShowProjections::ShowProjections(QWidget *parent) :
                  char c = ' ';
                  while(c!='\n'){
                      fscanf(file, "%c", &c);
+                     cout << c;
                  }
              }
-             if(flagEndOfFile==1) break;
          // end of while
+             cout<<"end loop"<<endl ;
          }
-
 
           wireframe.generateFullBody();
           TwoDObj *twodObj = new TwoDObj(wireframe.vertexList, wireframe.edgeList ,  wireframe.getfaces() ) ;
