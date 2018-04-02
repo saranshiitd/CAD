@@ -16,7 +16,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QSlider>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -27,9 +27,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QSlider *horizontalSlider;
-    QSlider *horizontalSlider_2;
-    QSlider *horizontalSlider_3;
+    QPushButton *selectFile;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -38,26 +36,16 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(400, 300);
+        MainWindow->resize(941, 718);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        horizontalSlider = new QSlider(centralWidget);
-        horizontalSlider->setObjectName(QStringLiteral("horizontalSlider"));
-        horizontalSlider->setGeometry(QRect(230, 0, 160, 29));
-        horizontalSlider->setMaximum(180);
-        horizontalSlider->setOrientation(Qt::Horizontal);
-        horizontalSlider_2 = new QSlider(centralWidget);
-        horizontalSlider_2->setObjectName(QStringLiteral("horizontalSlider_2"));
-        horizontalSlider_2->setGeometry(QRect(230, 40, 160, 29));
-        horizontalSlider_2->setOrientation(Qt::Horizontal);
-        horizontalSlider_3 = new QSlider(centralWidget);
-        horizontalSlider_3->setObjectName(QStringLiteral("horizontalSlider_3"));
-        horizontalSlider_3->setGeometry(QRect(230, 80, 160, 29));
-        horizontalSlider_3->setOrientation(Qt::Horizontal);
+        selectFile = new QPushButton(centralWidget);
+        selectFile->setObjectName(QStringLiteral("selectFile"));
+        selectFile->setGeometry(QRect(320, 200, 300, 300));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 400, 25));
+        menuBar->setGeometry(QRect(0, 0, 941, 25));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -74,6 +62,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        selectFile->setText(QApplication::translate("MainWindow", "Fuck You Bitch", 0));
     } // retranslateUi
 
 };
