@@ -21,7 +21,9 @@
 #include <cctype>
 #include <locale>
 #include "showprojections.h"
-#include "TwoDObj.h"
+
+#include <stdio.h>
+
 
 #define PI 3.1415926536
 #define SIZE 200
@@ -162,8 +164,10 @@ void Selection::on_Project_clicked()
     string fileName1 = filename.toStdString();
     ShowProjections *w = new ShowProjections();
     w->setAttribute(Qt::WA_DeleteOnClose);
+
     cout << "File name inside selection " << fileName1;
     w->objfileName = fileName1;
+    w->generateView();
     w->show();
 
 }

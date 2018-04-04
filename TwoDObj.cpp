@@ -82,7 +82,7 @@ float* TwoDObj::getMinXY(){
     return toReturn ;
 }
 std::vector<std::vector<edge2D> > TwoDObj::getViews(){
-    cout<<"in getviews" << endl ;
+//    cout<<"in getviews" << endl ;
     float maxZ = -INFINITY;
     float minZ =  INFINITY;
     float maxY = -INFINITY;
@@ -240,10 +240,10 @@ int TwoDObj::isInside(std::vector<vertex2D> polygon, int n, vertex2D p)
             // otherwise false
             if (orientation(polygon[i], p, polygon[next]) == 0){
                 if(onSegment(polygon[i], p, polygon[next])){
-                    cout<<"lies on"<<endl ;
-                    printPlane2D(polygon);
-                    p.print();
-                    cout<<endl;
+//                    cout<<"lies on"<<endl ;
+//                    printPlane2D(polygon);
+//                    p.print();
+//                    cout<<endl;
                 }
                 if(onSegment(polygon[i], p, polygon[next])) {
                     return 1 ;
@@ -261,10 +261,10 @@ int TwoDObj::isInside(std::vector<vertex2D> polygon, int n, vertex2D p)
 
     // Return true if count is odd, false otherwise
     if(count&1){
-        cout<<"see hides"<<endl ;
-        printPlane2D(polygon);
-        p.print();
-        cout<<endl;
+//        cout<<"see hides"<<endl ;
+//        printPlane2D(polygon);
+//        p.print();
+//        cout<<endl;
     }
     if(count&1) {
         return 2 ;
@@ -378,12 +378,12 @@ bool TwoDObj::checkHides(edge3D edge, std::vector<vertex3D> plane3D , int direct
     int v1Inside = isInside(plane2D , plane2D.size() , edge2d.v1) ;
     int v2Inside = isInside(plane2D , plane2D.size(), edge2d.v2) ;
     if(v1Inside && v2Inside) {
-        cout<<"hides answer"<<endl ;
-        printPlane(plane3D);
+//        cout<<"hides answer"<<endl ;
+//        printPlane(plane3D);
 
-        edge.v1.print();
-        edge.v2.print();
-        cout<<endl ;
+//        edge.v1.print();
+//        edge.v2.print();
+//        cout<<endl ;
     }
     if(v1Inside==2 || v2Inside ==2) {
         return true ;
@@ -549,8 +549,8 @@ void TwoDObj::generateIsometric(){
             isometricView.push_back(current2DEdge) ;
         }
      }
-    cout<<endl ;
-    cout<<"generatedIso"<<endl ;
+//    cout<<endl ;
+//    cout<<"generatedIso"<<endl ;
 }
 
 
@@ -604,12 +604,12 @@ vertex3D TwoDObj::rotateVertex(vertex3D vertex , float rotationM[][3]){
 }
 
 void TwoDObj::rotationOnVertices(float rotationM[][3] ){
-    cout<<"IN ROTATION"<<endl ;
+//    cout<<"IN ROTATION"<<endl ;
     for(unsigned i=0 ; i< TwoDObj::orignalVertices.size() ; i+=1){
         vertex3D tempv = rotateVertex(TwoDObj::orignalVertices[i] , rotationM) ;
-        cout<<endl;
+//        cout<<endl;
         TwoDObj::vertices[i] = tempv ;
-        cout<<endl;
+//        cout<<endl;
     }
     return ;
 }
@@ -688,15 +688,15 @@ void TwoDObj::applyRotation(float angles[]) {
     multiply(rotX , rotY , tempres) ;
     multiply(tempres ,  rotZ , res) ;
 
-    cout<<"BEFORE"<<"-------------------------------------------"<<endl ;
-    for(unsigned i=0 ; i < vertices.size() ; i+=1){
-        vertices[i].print() ;
-    }
+//    cout<<"BEFORE"<<"-------------------------------------------"<<endl ;
+//    for(unsigned i=0 ; i < vertices.size() ; i+=1){
+//        vertices[i].print() ;
+//    }
     rotationOnVertices(res);
-    cout<<"AFTER"<<"-------------------------------------------"<<endl ;
-    for(unsigned i=0 ; i < vertices.size() ; i+=1){
-        vertices[i].print() ;
-    }
+//    cout<<"AFTER"<<"-------------------------------------------"<<endl ;
+//    for(unsigned i=0 ; i < vertices.size() ; i+=1){
+//        vertices[i].print() ;
+//    }
     cout<<endl;
     rotationOnEdges(res);
     rotationOnPlane(res);
