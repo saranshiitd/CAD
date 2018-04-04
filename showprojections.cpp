@@ -227,16 +227,16 @@ void ShowProjections::generateView() {
 
           size_t lastindex = objfileName.find_last_of("."); 
           string rawname = objfileName.substr(0, lastindex); 
-          txtName = rawname += ".txt";
+          rawname += ".txt";
           
           //txtFile << "Writing this to a file.\n";
             std::vector<edge2D> topViewToWrite = twodObj->topView;
             std::vector<edge2D> frontViewToWrite = twodObj->frontView;
             std::vector<edge2D> sideViewToWrite = twodObj->sideView;
 
-            std::vector<vertex2D> topViewVertexToWrite;
-            std::vector<vertex2D> frontViewVertexToWrite;
-             std::vector<vertex2D> sideViewVertexToWrite;
+            VertexList2D topViewVertexToWrite;
+            VertexList2D frontViewVertexToWrite;
+            VertexList2D sideViewVertexToWrite;
 
              for (int i = 0; i < frontViewToWrite.size() ; i++){
                 frontViewVertexToWrite.addVertex(frontViewToWrite.at(i).v1);
@@ -255,52 +255,54 @@ void ShowProjections::generateView() {
 
 
           ofstream txtFile;
-          txtFile.open ("txtName");
+          txtFile.open (rawname);
 
-            for (int i = 0; i < topViewVertexToWrite.size() ; i++){
-                txtFile << "t " << topViewVertexToWrite.at(i).a << " " << topViewVertexToWrite.at(i).b << "\n"; 
+            for (int i = 0; i < topViewVertexToWrite.vertexList.size() ; i++){
+                txtFile << "t " << topViewVertexToWrite.vertexList.at(i).a << " " << topViewVertexToWrite.vertexList.at(i).b << "\n"; 
              }
 
-             for (int i = 0; i < topViewToWrite.size() ; i++){
+             for (int i = 0; i < topViewToWrite.vertexList.size() ; i++){
                 vector<vertex2D>::iterator it;
-                it = find(topViewVertexToWrite.begin(), topViewVertexToWrite.end(), topViewToWrite.at(i).v1)
-                int a = std::distance(topViewVertexToWrite.begin(), it) +1;
+                it = std::find(topViewVertexToWrite.vertexList.begin(), topViewVertexToWrite.vertexList.end(), topViewToWrite.at(i).v1) ;
+                int a = std::distance(topViewVertexToWrite.vertexList.begin(), it) +1;
 
-                it = find(topViewVertexToWrite.begin(), topViewVertexToWrite.end(), topViewToWrite.at(i).v2)
-                int b = std::distance(topViewVertexToWrite.begin(), it) +1;
+                it = std::find(topViewVertexToWrite.vertexList.begin(), topViewVertexToWrite.vertexList.end(), topViewToWrite.at(i).v2) ;
+                int b = std::distance(topViewVertexToWrite.vertexList.begin(), it) +1;
 
                 txtFile << "te " << a << " " << b << "\n";
              } 
 
-            for (int i = 0; i < sideViewVertexToWrite.size() ; i++){
-                txtFile << "s " << sideViewVertexToWrite.at(i).a << " " << sideViewVertexToWrite.at(i).b << "\n"; 
+
+            for (int i = 0; i < sideViewVertexToWrite.vertexList.size() ; i++){
+                txtFile << "s " << sideViewVertexToWrite.vertexList.at(i).a << " " << sideViewVertexToWrite.vertexList.at(i).b << "\n"; 
              }
 
-             for (int i = 0; i < sideViewToWrite.size() ; i++){
+             for (int i = 0; i < sideViewToWrite.vertexList.size() ; i++){
                 vector<vertex2D>::iterator it;
-                it = find(sideViewVertexToWrite.begin(), sideViewVertexToWrite.end(), sideViewToWrite.at(i).v1)
-                int a = std::distance(sideViewVertexToWrite.begin(), it) +1;
+                it = std::find(sideViewVertexToWrite.vertexList.begin(), sideViewVertexToWrite.vertexList.end(), sideViewToWrite.at(i).v1) ;
+                int a = std::distance(sideViewVertexToWrite.vertexList.begin(), it) +1;
 
-                it = find(sideViewVertexToWrite.begin(), sideViewVertexToWrite.end(), sideViewToWrite.at(i).v2)
-                int b = std::distance(sideViewVertexToWrite.begin(), it) +1;
+                it = std::find(sideViewVertexToWrite.vertexList.begin(), sideViewVertexToWrite.vertexList.end(), sideViewToWrite.at(i).v2) ;
+                int b = std::distance(sideViewVertexToWrite.vertexList.begin(), it) +1;
 
-                txtFile << "se " << a << " " << b <<"\n";
+                txtFile << "se " << a << " " << b << "\n";
              } 
 
-                        for (int i = 0; i < frontViewVertexToWrite.size() ; i++){
-                txtFile << "f " << frontViewVertexToWrite.at(i).a << " " << frontViewVertexToWrite.at(i).b << "\n"; 
+            
+            for (int i = 0; i < frontViewVertexToWrite.vertexList.size() ; i++){
+                txtFile << "f " << frontViewVertexToWrite.vertexList.at(i).a << " " << frontViewVertexToWrite.vertexList.at(i).b << "\n"; 
              }
 
-             for (int i = 0; i < frontViewToWrite.size() ; i++){
+             for (int i = 0; i < frontViewToWrite.vertexList.size() ; i++){
                 vector<vertex2D>::iterator it;
-                it = find(frontViewVertexToWrite.begin(), frontViewVertexToWrite.end(), frontViewToWrite.at(i).v1)
-                int a = std::distance(frontViewVertexToWrite.begin(), it) +1;
+                it = std::find(frontViewVertexToWrite.vertexList.begin(), frontViewVertexToWrite.vertexList.end(), frontViewToWrite.at(i).v1) ;
+                int a = std::distance(frontViewVertexToWrite.vertexList.begin(), it) +1;
 
-                it = find(frontViewVertexToWrite.begin(), frontViewVertexToWrite.end(), frontViewToWrite.at(i).v2)
-                int b = std::distance(frontViewVertexToWrite.begin(), it) +1;
+                it = std::find(frontViewVertexToWrite.vertexList.begin(), frontViewVertexToWrite.vertexList.end(), frontViewToWrite.at(i).v2) ;
+                int b = std::distance(frontViewVertexToWrite.vertexList.begin(), it) +1;
 
                 txtFile << "fe " << a << " " << b << "\n";
-             } 
+             }  
 
           txtFile.close();
 
