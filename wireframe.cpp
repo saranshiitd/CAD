@@ -206,8 +206,9 @@ string getAFace(vector<edge3D> eList, vector<vertex3D> vList){
 		s+= to_string(pos);
 		s+= " ";
 	}	
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-    std::not1(std::ptr_fun<int, int>(std::isspace))));
+	s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+        return !std::isspace(ch);
+    }).base(), s.end());
 	return s;
 }
 
