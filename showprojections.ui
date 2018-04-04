@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1094</width>
-    <height>757</height>
+    <width>1266</width>
+    <height>823</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QLabel" name="Isometric">
     <property name="geometry">
      <rect>
-      <x>355</x>
+      <x>410</x>
       <y>360</y>
-      <width>250</width>
-      <height>250</height>
+      <width>360</width>
+      <height>320</height>
      </rect>
     </property>
     <property name="text">
@@ -71,8 +71,8 @@
      <rect>
       <x>15</x>
       <y>360</y>
-      <width>250</width>
-      <height>250</height>
+      <width>360</width>
+      <height>320</height>
      </rect>
     </property>
     <property name="text">
@@ -95,8 +95,8 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>465</x>
-      <y>640</y>
+      <x>460</x>
+      <y>680</y>
       <width>150</width>
       <height>17</height>
      </rect>
@@ -108,10 +108,10 @@
    <widget class="QLabel" name="sideView">
     <property name="geometry">
      <rect>
-      <x>355</x>
+      <x>410</x>
       <y>20</y>
-      <width>250</width>
-      <height>250</height>
+      <width>360</width>
+      <height>320</height>
      </rect>
     </property>
     <property name="text">
@@ -121,8 +121,8 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>125</x>
-      <y>640</y>
+      <x>120</x>
+      <y>680</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -149,8 +149,8 @@
      <rect>
       <x>15</x>
       <y>20</y>
-      <width>250</width>
-      <height>250</height>
+      <width>360</width>
+      <height>320</height>
      </rect>
     </property>
     <property name="text">
@@ -161,7 +161,7 @@
     <property name="geometry">
      <rect>
       <x>465</x>
-      <y>300</y>
+      <y>330</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -174,7 +174,7 @@
     <property name="geometry">
      <rect>
       <x>125</x>
-      <y>300</y>
+      <y>330</y>
       <width>80</width>
       <height>17</height>
      </rect>
@@ -202,7 +202,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1094</width>
+     <width>1266</width>
      <height>25</height>
     </rect>
    </property>
