@@ -227,7 +227,7 @@ void ShowProjections::generateView() {
 
           size_t lastindex = objfileName.find_last_of("."); 
           string rawname = objfileName.substr(0, lastindex); 
-          txtName = rawname += ".txt";
+          rawname += ".txt";
           
           //txtFile << "Writing this to a file.\n";
             std::vector<edge2D> topViewToWrite = twodObj->topView;
@@ -239,23 +239,23 @@ void ShowProjections::generateView() {
              std::vector<vertex2D> sideViewVertexToWrite;
 
              for (int i = 0; i < frontViewToWrite.size() ; i++){
-                frontViewVertexToWrite.addVertex(frontViewToWrite.at(i).v1);
-                frontViewVertexToWrite.addVertex(frontViewToWrite.at(i).v2);
+                frontViewVertexToWrite.push_back(frontViewToWrite.at(i).v1);
+                frontViewVertexToWrite.push_back(frontViewToWrite.at(i).v2);
              }
 
              for (int i = 0; i < topViewToWrite.size() ; i++){
-                topViewVertexToWrite.addVertex(topViewToWrite.at(i).v1);
-                topViewVertexToWrite.addVertex(topViewToWrite.at(i).v2);
+                topViewVertexToWrite.push_back(topViewToWrite.at(i).v1);
+                topViewVertexToWrite.push_back(topViewToWrite.at(i).v2);
              }
 
              for (int i = 0; i < sideViewToWrite.size() ; i++){
-                sideViewVertexToWrite.addVertex(sideViewToWrite.at(i).v1);
-                sideViewVertexToWrite.addVertex(sideViewToWrite.at(i).v2);
+                sideViewVertexToWrite.push_back(sideViewToWrite.at(i).v1);
+                sideViewVertexToWrite.push_back(sideViewToWrite.at(i).v2);
              }
 
 
           ofstream txtFile;
-          txtFile.open ("txtName");
+          txtFile.open (rawname);
 
             for (int i = 0; i < topViewVertexToWrite.size() ; i++){
                 txtFile << "t " << topViewVertexToWrite.at(i).a << " " << topViewVertexToWrite.at(i).b << "\n"; 
@@ -263,13 +263,14 @@ void ShowProjections::generateView() {
 
              for (int i = 0; i < topViewToWrite.size() ; i++){
                 vector<vertex2D>::iterator it;
-                it = find(topViewVertexToWrite.begin(), topViewVertexToWrite.end(), topViewToWrite.at(i).v1)
-                int a = std::distance(topViewVertexToWrite.begin(), it) +1;
+                it = std::find(topViewVertexToWrite.begin(), topViewVertexToWrite.end(), topViewToWrite.at(i).v1) ;
+                int a = std::distance(topViewVertexToWrite.begin(), it) ;
+                a +=1 ;
 
-                it = find(topViewVertexToWrite.begin(), topViewVertexToWrite.end(), topViewToWrite.at(i).v2)
+                it = std::find(topViewVertexToWrite.begin(), topViewVertexToWrite.end(), topViewToWrite.at(i).v2) ;
                 int b = std::distance(topViewVertexToWrite.begin(), it) +1;
 
-                txtFile << "te " << a << " " << b "\n";
+                txtFile << "te " << a << " " << b <<"\n";
              } 
 
             for (int i = 0; i < sideViewVertexToWrite.size() ; i++){
@@ -278,13 +279,13 @@ void ShowProjections::generateView() {
 
              for (int i = 0; i < sideViewToWrite.size() ; i++){
                 vector<vertex2D>::iterator it;
-                it = find(sideViewVertexToWrite.begin(), sideViewVertexToWrite.end(), sideViewToWrite.at(i).v1)
+                it = std::find(sideViewVertexToWrite.begin(), sideViewVertexToWrite.end(), sideViewToWrite.at(i).v1) ;
                 int a = std::distance(sideViewVertexToWrite.begin(), it) +1;
 
-                it = find(sideViewVertexToWrite.begin(), sideViewVertexToWrite.end(), sideViewToWrite.at(i).v2)
+                it = std::find(sideViewVertexToWrite.begin(), sideViewVertexToWrite.end(), sideViewToWrite.at(i).v2) ;
                 int b = std::distance(sideViewVertexToWrite.begin(), it) +1;
 
-                txtFile << "se " << a << " " << b "\n";
+                txtFile << "se " << a << " " << b << "\n";
              } 
 
                         for (int i = 0; i < frontViewVertexToWrite.size() ; i++){
@@ -293,13 +294,13 @@ void ShowProjections::generateView() {
 
              for (int i = 0; i < frontViewToWrite.size() ; i++){
                 vector<vertex2D>::iterator it;
-                it = find(frontViewVertexToWrite.begin(), frontViewVertexToWrite.end(), frontViewToWrite.at(i).v1)
+                it = std::find(frontViewVertexToWrite.begin(), frontViewVertexToWrite.end(), frontViewToWrite.at(i).v1) ;
                 int a = std::distance(frontViewVertexToWrite.begin(), it) +1;
 
-                it = find(frontViewVertexToWrite.begin(), frontViewVertexToWrite.end(), frontViewToWrite.at(i).v2)
+                it = std::find(frontViewVertexToWrite.begin(), frontViewVertexToWrite.end(), frontViewToWrite.at(i).v2) ;
                 int b = std::distance(frontViewVertexToWrite.begin(), it) +1;
 
-                txtFile << "fe " << a << " " << b "\n";
+                txtFile << "fe " << a << " " << b << "\n";
              } 
 
           txtFile.close();
