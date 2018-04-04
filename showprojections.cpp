@@ -221,6 +221,89 @@ void ShowProjections::generateView() {
           wireframe.generateFullBody();
           TwoDObj *twodObj = new TwoDObj(wireframe.vertexList, wireframe.edgeList ,  wireframe.getfaces() ) ;
           this->twoDObjAttr = twodObj ;;
+
+          // will write the views into a text file so that this 
+          // txt file can be used for reconstruction later
+
+          size_t lastindex = objfileName.find_last_of("."); 
+          string rawname = objfileName.substr(0, lastindex); 
+          txtName = rawname += ".txt";
+          
+          //txtFile << "Writing this to a file.\n";
+            std::vector<edge2D> topViewToWrite = twodObj->topView;
+            std::vector<edge2D> frontViewToWrite = twodObj->frontView;
+            std::vector<edge2D> sideViewToWrite = twodObj->sideView;
+
+            std::vector<vertex2D> topViewVertexToWrite;
+            std::vector<vertex2D> frontViewVertexToWrite;
+             std::vector<vertex2D> sideViewVertexToWrite;
+
+             for (int i = 0; i < frontViewToWrite.size() ; i++){
+                frontViewVertexToWrite.addVertex(frontViewToWrite.at(i).v1);
+                frontViewVertexToWrite.addVertex(frontViewToWrite.at(i).v2);
+             }
+
+             for (int i = 0; i < topViewToWrite.size() ; i++){
+                topViewVertexToWrite.addVertex(topViewToWrite.at(i).v1);
+                topViewVertexToWrite.addVertex(topViewToWrite.at(i).v2);
+             }
+
+             for (int i = 0; i < sideViewToWrite.size() ; i++){
+                sideViewVertexToWrite.addVertex(sideViewToWrite.at(i).v1);
+                sideViewVertexToWrite.addVertex(sideViewToWrite.at(i).v2);
+             }
+
+
+          ofstream txtFile;
+          txtFile.open ("txtName");
+
+            for (int i = 0; i < topViewVertexToWrite.size() ; i++){
+                txtFile << "t " << topViewVertexToWrite.at(i).a << " " << topViewVertexToWrite.at(i).b << "\n"; 
+             }
+
+             for (int i = 0; i < topViewToWrite.size() ; i++){
+                vector<vertex2D>::iterator it;
+                it = find(topViewVertexToWrite.begin(), topViewVertexToWrite.end(), topViewToWrite.at(i).v1)
+                int a = std::distance(topViewVertexToWrite.begin(), it) +1;
+
+                it = find(topViewVertexToWrite.begin(), topViewVertexToWrite.end(), topViewToWrite.at(i).v2)
+                int b = std::distance(topViewVertexToWrite.begin(), it) +1;
+
+                txtFile << "te " << a << " " << b "\n";
+             } 
+
+            for (int i = 0; i < sideViewVertexToWrite.size() ; i++){
+                txtFile << "s " << sideViewVertexToWrite.at(i).a << " " << sideViewVertexToWrite.at(i).b << "\n"; 
+             }
+
+             for (int i = 0; i < sideViewToWrite.size() ; i++){
+                vector<vertex2D>::iterator it;
+                it = find(sideViewVertexToWrite.begin(), sideViewVertexToWrite.end(), sideViewToWrite.at(i).v1)
+                int a = std::distance(sideViewVertexToWrite.begin(), it) +1;
+
+                it = find(sideViewVertexToWrite.begin(), sideViewVertexToWrite.end(), sideViewToWrite.at(i).v2)
+                int b = std::distance(sideViewVertexToWrite.begin(), it) +1;
+
+                txtFile << "se " << a << " " << b "\n";
+             } 
+
+                        for (int i = 0; i < frontViewVertexToWrite.size() ; i++){
+                txtFile << "f " << frontViewVertexToWrite.at(i).a << " " << frontViewVertexToWrite.at(i).b << "\n"; 
+             }
+
+             for (int i = 0; i < frontViewToWrite.size() ; i++){
+                vector<vertex2D>::iterator it;
+                it = find(frontViewVertexToWrite.begin(), frontViewVertexToWrite.end(), frontViewToWrite.at(i).v1)
+                int a = std::distance(frontViewVertexToWrite.begin(), it) +1;
+
+                it = find(frontViewVertexToWrite.begin(), frontViewVertexToWrite.end(), frontViewToWrite.at(i).v2)
+                int b = std::distance(frontViewVertexToWrite.begin(), it) +1;
+
+                txtFile << "fe " << a << " " << b "\n";
+             } 
+
+          txtFile.close();
+
           cout<<"calling getviews" << endl ;
           draw() ;
 //          float angles[] = {0.0 , 0.0 , 1.0 } ;
