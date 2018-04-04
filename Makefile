@@ -59,7 +59,13 @@ SOURCES       = main.cpp \
 		structs.cpp \
 		TwoDObj.cpp \
 		wireframe.cpp \
-		VertexList2D.cpp moc_mainwindow.cpp
+		VertexList2D.cpp \
+		options.cpp \
+		selection.cpp \
+		showprojections.cpp moc_mainwindow.cpp \
+		moc_options.cpp \
+		moc_selection.cpp \
+		moc_showprojections.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		basicLoopEdgeSet.o \
@@ -72,7 +78,13 @@ OBJECTS       = main.o \
 		TwoDObj.o \
 		wireframe.o \
 		VertexList2D.o \
-		moc_mainwindow.o
+		options.o \
+		selection.o \
+		showprojections.o \
+		moc_mainwindow.o \
+		moc_options.o \
+		moc_selection.o \
+		moc_showprojections.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -140,7 +152,10 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		Plane.h \
 		TwoDObj.h \
 		wireframe.h \
-		VertexList2D.h main.cpp \
+		VertexList2D.h \
+		options.h \
+		selection.h \
+		showprojections.h main.cpp \
 		mainwindow.cpp \
 		basicLoopEdgeSet.cpp \
 		bodyLoop.cpp \
@@ -151,7 +166,10 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		structs.cpp \
 		TwoDObj.cpp \
 		wireframe.cpp \
-		VertexList2D.cpp
+		VertexList2D.cpp \
+		options.cpp \
+		selection.cpp \
+		showprojections.cpp
 QMAKE_TARGET  = untitled
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = untitled
@@ -179,7 +197,7 @@ first: all
 
 ####### Build rules
 
-$(TARGET): ui_mainwindow.h $(OBJECTS)  
+$(TARGET): ui_mainwindow.h ui_selection.h ui_showprojections.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: untitled.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -319,9 +337,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h EdgeList2D.h bodyLoop.h basicLoopEdgeSet.h faceLoop.h generalMethods.h structs.h Plane.h TwoDObj.h wireframe.h VertexList2D.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp basicLoopEdgeSet.cpp bodyLoop.cpp EdgeList2D.cpp faceLoop.cpp generalMethods.cpp Plane.cpp structs.cpp TwoDObj.cpp wireframe.cpp VertexList2D.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h EdgeList2D.h bodyLoop.h basicLoopEdgeSet.h faceLoop.h generalMethods.h structs.h Plane.h TwoDObj.h wireframe.h VertexList2D.h options.h selection.h showprojections.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp basicLoopEdgeSet.cpp bodyLoop.cpp EdgeList2D.cpp faceLoop.cpp generalMethods.cpp Plane.cpp structs.cpp TwoDObj.cpp wireframe.cpp VertexList2D.cpp options.cpp selection.cpp showprojections.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.ui selection.ui showprojections.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -344,19 +362,34 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_options.cpp moc_selection.cpp moc_showprojections.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_options.cpp moc_selection.cpp moc_showprojections.cpp
 moc_mainwindow.cpp: mainwindow.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/batman/Documents/CAD -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
 
+moc_options.cpp: options.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/batman/Documents/CAD -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include options.h -o moc_options.cpp
+
+moc_selection.cpp: selection.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/batman/Documents/CAD -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include selection.h -o moc_selection.cpp
+
+moc_showprojections.cpp: showprojections.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/batman/Documents/CAD -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include showprojections.h -o moc_showprojections.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h
+compiler_uic_make_all: ui_mainwindow.h ui_selection.h ui_showprojections.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h
+	-$(DEL_FILE) ui_mainwindow.h ui_selection.h ui_showprojections.h
 ui_mainwindow.h: mainwindow.ui
 	/usr/lib/x86_64-linux-gnu/qt5/bin/uic mainwindow.ui -o ui_mainwindow.h
+
+ui_selection.h: selection.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic selection.ui -o ui_selection.h
+
+ui_showprojections.h: showprojections.ui
+	/usr/lib/x86_64-linux-gnu/qt5/bin/uic showprojections.ui -o ui_showprojections.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -368,7 +401,7 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: main.cpp mainwindow.h
+main.o: main.cpp selection.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 mainwindow.o: mainwindow.cpp mainwindow.h \
@@ -429,8 +462,51 @@ VertexList2D.o: VertexList2D.cpp VertexList2D.h \
 		structs.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o VertexList2D.o VertexList2D.cpp
 
+options.o: options.cpp options.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o options.o options.cpp
+
+selection.o: selection.cpp selection.h \
+		ui_selection.h \
+		mainwindow.h \
+		wireframe.h \
+		structs.h \
+		VertexList2D.h \
+		EdgeList2D.h \
+		basicLoopEdgeSet.h \
+		faceLoop.h \
+		bodyLoop.h \
+		generalMethods.h \
+		Plane.h \
+		showprojections.h \
+		TwoDObj.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o selection.o selection.cpp
+
+showprojections.o: showprojections.cpp showprojections.h \
+		ui_showprojections.h \
+		mainwindow.h \
+		wireframe.h \
+		structs.h \
+		VertexList2D.h \
+		EdgeList2D.h \
+		basicLoopEdgeSet.h \
+		faceLoop.h \
+		bodyLoop.h \
+		generalMethods.h \
+		Plane.h \
+		TwoDObj.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o showprojections.o showprojections.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_options.o: moc_options.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_options.o moc_options.cpp
+
+moc_selection.o: moc_selection.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_selection.o moc_selection.cpp
+
+moc_showprojections.o: moc_showprojections.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_showprojections.o moc_showprojections.cpp
 
 ####### Install
 
